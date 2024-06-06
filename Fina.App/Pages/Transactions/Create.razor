@@ -1,0 +1,38 @@
+﻿@page "/transactions/adicionar"
+@using Fina.Core.Enums
+@using Fina.Core.Entities
+@using Microsoft.AspNetCore.Components
+@inherits CreateTransactionPage
+
+<MudText Typo="Typo.h3">Nova transacao</MudText>
+
+<MudPaper class="pa-8 mt-4">
+    <EditForm Model="@Model" OnValidSubmit="OnValidSubmitAsync">
+        <DataAnnotationsValidator />
+
+        <MudTextField Label="Titulo" HelperText="Campo obrigatorio" @bind-Value="Model.Title" For="@(() => Model.Title)" />
+
+        <MudTextField @bind-value="Model.Amount" Label="Quantia" HelperText="Campo Obrigatorio" For="@(() => Model.Amount)" />
+
+        <label for="categoryId">Categoria</label>
+        <select id="categoryId" @bind="Model.CategoryId" class="form-control">
+            @foreach (var category in Categories)
+            {
+                <option value="@category.Id">@category.Title</option>
+            }
+        </select>
+
+        <label for="transactionType">Tipo de Transação</label>
+        <select id="transactionType" @bind="Model.Type" class="form-control">
+            @foreach (TransactionType type in Enum.GetValues(typeof(TransactionType)))
+            {
+                <option value="@type">@type</option>
+            }
+        </select>
+
+        <MudDatePicker Class="center" Label="Basic example" @bind-Date="Model.PaidOrReceivedAt" />
+        <MudButton Class="mt-4" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">
+            Salvar
+        </MudButton>
+    </EditForm>
+</MudPaper>
